@@ -17,7 +17,7 @@ FSJS project 2 - List Filter and Pagination
    scoped to that function.
 ***/
 let studentList; 
-const numberOfItemPerPage = 10;
+const numberOfItemsPerPage = 10;
 
 
 
