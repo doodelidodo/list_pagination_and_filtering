@@ -3,9 +3,6 @@ Treehouse Techdegree:
 FSJS project 2 - List Filter and Pagination
 ******************************************/
    
-// Study guide for this project - https://drive.google.com/file/d/1OD1diUsTMdpfMDv677TfL1xO2CEkykSz/view?usp=sharing
-
-
 /*** 
    Add your global variables that store the DOM elements you will 
    need to reference and/or manipulate. 
@@ -18,8 +15,6 @@ FSJS project 2 - List Filter and Pagination
 ***/
 let studentList = document.querySelectorAll('.student-item');
 const numberOfItemsPerPage = 10;
-
-
 
 
 /*** 
@@ -40,36 +35,96 @@ const numberOfItemsPerPage = 10;
 const showPage = (list, page) => {
    let startIndex = (page * numberOfItemsPerPage) - numberOfItemsPerPage;
    let endIndex = page * numberOfItemsPerPage;
-
-   for(let i = 0; i < studentList.length; i++) {
-      studentList[i].style.display = "none";
-   }
    
    for(i = 0; i < list.length; i++) {
       if(i >= startIndex && i < endIndex) {
          list[i].style.display = "block";
+      } else {
+         list[i].style.display = "none";
       }
    }
 }
-
-window.onload = function () {
-   
-   showPage(studentList, 2);
-}
-
-
 
 
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
+
+   <div class="pagination">
+        <ul>
+          <li>
+            <a class="active" href="#">1</a>
+          </li>
+           <li>
+            <a href="#">2</a>
+          </li>
+           <li>
+            <a href="#">3</a>
+          </li>
+           <li>
+            <a href="#">4</a>
+          </li>
+           <li>
+            <a href="#">5</a>
+          </li>
+        </ul>
+      </div>
 ***/
 
 const appendPageLinks = (list) => {
+   let pages = Math.ceil(list.length / numberOfItemsPerPage);
+   const body = document.querySelector('body');
 
+   const div = document.createElement('div');
+   div.className = "pagination";
+
+   const ul = document.createElement('ul');
+   div.appendChild(ul);
+
+   appendListElements(ul, pages);
+   paginationClickListener(ul);
+
+   body.appendChild(div);
 }
 
 
+const appendListElements = (ul, pages) => {
+   for(let i = 1; i <= pages; i++) {
+      let page = i;
+      const li = document.createElement('li');
+      const link = document.createElement('a');
+      link.href = "#";
+      link.textContent = page;
+      li.appendChild(link);
+      if (page === 1) {
+         link.className = "active";
+      }
+      ul.appendChild(li);
+   }
+}
+
+const paginationClickListener = (ul) => {
+   const allLinks = ul.childNodes;
+
+   for(let i = 0; i < allLinks.length; i++) {
+      allLinks[i].firstChild.addEventListener('click', (e) => {
+         let clickedLink = e.target;
+         let pageNr = e.target.textContent;
+         removeActiveClass(allLinks);
+         clickedLink.className = "active";
+         showPage(studentList, pageNr)
+      });
+   }
+}
+
+const removeActiveClass = (list) => {
+   for(let i = 0; i < list.length; i++) {
+      list[i].firstChild.classList.remove("active");
+   }
+}
 
 
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
+window.onload = () => {
+   showPage(studentList, 1);
+   appendPageLinks(studentList);
+}
