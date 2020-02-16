@@ -3,7 +3,7 @@
  FSJS project 2 - List Filter and Pagination
  ******************************************/
 
-let studentList = document.querySelectorAll('.student-item');
+const studentList = document.querySelectorAll('.student-item');
 const numberOfItemsPerPage = 10;
 const pageContent = document.querySelector('.page');
 
