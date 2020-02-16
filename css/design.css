@@ -117,3 +117,9 @@ body{
       background-color: #4ba6c3;
       color: #fff;
     }
+
+    .no-result {
+      color: rgba(0, 0, 0, 0.5);
+      font-weight: bold;
+      text-align: center;
+    }
